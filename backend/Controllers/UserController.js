@@ -49,7 +49,15 @@ const verifyCode = async (req, res) => {
     if(verification.code !== code)
         return res.status(400).json({ error: 'Code is invalid.' });
 
-    console.log('here');
+    
+    const wasUserUpdated = await User.findByIdAndUpdate(user._id, {
+        isVerified: true
+    })
+        .catch(() => null);
+
+    if(!wasUserUpdated)
+        return res.status(500).json({ error: 'Could not update user status.' });
+
     await Verification.findByIdAndDelete(verification._id)
         .then(() => res.status(204).json())
         .catch(() => res.status(500).json({ error: 'Could not delete verification entry.' }));
