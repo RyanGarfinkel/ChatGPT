@@ -15,8 +15,8 @@ const genRefreshToken = (email) => {
     });
 }
 
-const verifyAccessToken = (req, res, next) => {
-    const authHeader = req.headerr.authorization;
+const authenticate = (req, res, next) => {
+    const authHeader = req.get('Authorization');
     const token = authHeader && authHeader.split(' ')[1];
 
     if(!token)
@@ -39,6 +39,13 @@ const verifyAccessToken = (req, res, next) => {
     })
 }
 
+const authorize = (req, res, next) => {
+    if(!req.user.isVerified)
+        return res.status(401).json({ error: 'Unathorized to make this request.' });
+
+    next();
+}
+
 const verifyRefreshToken = (refreshToken) => {
     
     return jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, payload) => {
@@ -56,4 +63,4 @@ const verifyRefreshToken = (refreshToken) => {
     })
 }
 
-module.exports = { genAccessToken, genRefreshToken, verifyAccessToken, verifyRefreshToken };
+module.exports = { genAccessToken, genRefreshToken, authenticate, authorize, verifyRefreshToken };

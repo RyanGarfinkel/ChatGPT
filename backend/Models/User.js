@@ -41,5 +41,5 @@ UserSchema.pre('save', async function (next) {
         .catch((error) => next(error));
 });
 
-const User = mongoose.model('User', UserSchema, 'ChatGPT');
+const User = mongoose.model('User', UserSchema);
 module.exports = User;
