@@ -1,17 +1,25 @@
 const mongoose = require('mongoose');
 
 const MessageSchema = new mongoose.Schema({
-    message: {
+    created: {
+        type: Date,
+        required: true,
+    },
+    role: {
         type: String,
         required: true,
     },
-    wasSentByUser: {
-        type: Boolean,
+    content: {
+        type: String,
         required: true,
     },
 })
 
-const ChatSchema = new mongoose.Schema({
+const ThreadSchema = new mongoose.Schema({
+    userId: {
+        type: mongoose.Schema.ObjectId,
+        required: true,
+    },
     title: {
         type: String,
         required: true,
@@ -28,6 +36,6 @@ const ChatSchema = new mongoose.Schema({
     },
 });
 
-const Chat = mongoose.model('Chat', ChatSchema);
+const Thread = mongoose.model('Thread', ThreadSchema);
 
-module.exports = Chat;
+module.exports = Thread;

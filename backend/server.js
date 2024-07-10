@@ -12,9 +12,11 @@ app.use(bodyParser.json());
 
 const authRoutes = require('./Routes/AuthRoutes');
 const userRoutes = require('./Routes/UserRoutes');
+const chatRoutes = require('./Routes/ChatRoutes');
 
 app.use('/api/auth/', authRoutes);
 app.use('/api/users/', userRoutes);
+app.use('/api/chat', chatRoutes);
 
 
 const PORT = process.env.PORT || 5003;
